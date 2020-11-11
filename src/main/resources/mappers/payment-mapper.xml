@@ -1,0 +1,582 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE mapper PUBLIC
+"-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="PaymentMapper">
+
+	<resultMap id="resultPayment" type="Payment">
+		<id property="poNum" column="P_O_NUM" />
+		<result property="pbNum" column="P_B_NUM" />
+		<result property="poBizDelivery" column="BIZ_DELIVERY" />
+		<result property="poDate" column="P_O_DATE" />
+		<result property="poBookDate" column="P_O_BOOKDATE" />
+		<result property="poCnt" column="P_O_CNT" />
+		<result property="poPrice" column="P_O_PRICE" />
+		<result property="poText" column="P_O_TEXT" />
+		<result property="mbBizName" column="BIZ_NAME" />
+		<result property="pbName" column="P_NAME" />
+		<result property="pbPrice" column="P_PRICE" />
+		<result property="pbImg" column="P_IMG" />
+		
+		<result property="pay_NUM" column="pay_NUM" />
+		<result property="pay_date" column="pay_date" />
+		<result property="pay_method" column="pay_method" />
+		<result property="pay_price" column="pay_price" />
+		<result property="imp_uid" column="imp_uid" />
+		<result property="m_id" column="m_id" />
+		
+		<result property="recPost" column="P_O_REC_POST" />
+		<result property="recName" column="P_O_REC_NAME" />
+		<result property="recCP" column="P_O_REC_CP" />
+		<result property="recBasicAddr" column="P_O_REC_BASIC_ADDR" />
+		<result property="recDetailAddr" column="P_O_REC_DETAIL_ADDR" />
+		<result property="recMemo" column="P_O_MEMO" />
+		<result property="s_num" column="S_NUM" />
+		<result property="s_status" column="s_status" />
+		
+		<result property="bizDeliveryYN" column="BIZ_DELIVERY_YN" />
+		
+		<result property="type" column="p_o_type" />
+		<result property="type" column="c_o_type" />
+		
+		<result property="poNum" column="C_O_NUM" />
+		<result property="pbNum" column="C_B_NUM" />
+		<result property="poDate" column="C_O_DATE" />
+		<result property="poBookDate" column="C_O_BOOKDATE" />
+		<result property="poCnt" column="C_O_CNT" />
+		<result property="poPrice" column="C_O_PRICE" />
+		<result property="poText" column="C_O_TEXT" />
+		<result property="pbName" column="C_b_NAME" />
+		<result property="pbPrice" column="C_b_PRICE" />
+		
+		<result property="coSize" column="C_O_SIZE" />
+		<result property="coSheet" column="C_O_SHEET" />
+		<result property="coTopping" column="C_O_TOPPING" />
+		<result property="coCream" column="C_O_CREAM" />
+		
+		
+		<result property="recPost" column="C_O_REC_POST" />
+		<result property="recName" column="C_O_REC_NAME" />
+		<result property="recCP" column="C_O_REC_CP" />
+		<result property="recBasicAddr" column="C_O_REC_BASIC_ADDR" />
+		<result property="recDetailAddr" column="C_O_REC_DETAIL_ADDR" />
+		<result property="recMemo" column="C_O_MEMO" />
+			
+		
+	</resultMap>
+
+
+	<!--1. 완제품 케이크 장바구니 내역만 일단 가지고 오는 것 -->
+	<select id="cartselectList" resultMap="resultPayment">
+		
+		SELECT
+			PO.P_O_NUM, <!-- 주문번호 -->
+			PO.P_B_NUM, <!-- 참고게시글번호 -->
+			PO.BIZ_DELIVERY, <!-- 배송비 -->
+			PO.P_O_DATE, <!-- 주문일자 -->
+			PO.P_O_BOOKDATE, <!-- 예약날짜 -->
+			PO.P_O_CNT, <!-- 주문수량 -->
+			PO.P_O_PRICE,<!--  총 상품가격 -->
+			PO.P_O_TEXT, <!-- 맞춤형 문구 -->
+			MB.BIZ_NAME, <!-- 사업장이름(가게이름) -->
+			PB.P_NAME, <!-- 제품 이름 -->
+			PB.P_PRICE, <!-- 제품 하나 가격 -->
+			PB.P_IMG,	<!-- 제품 이미지 -->
+			po.p_o_type
+		FROM
+			PRODUCT_ORDER PO,
+			MEMBER_BIZ MB,
+			PRODUCT_BOARD PB
+		WHERE
+			PO.M_ID = #{id}
+		AND
+			PO.S_NUM = 1
+		AND
+			MB.M_ID = PB.M_ID
+		AND
+			PB.P_B_NUM = PO.P_B_NUM
+		
+	</select>
+	
+	<select id="cartCustomselectList" resultMap="resultPayment">
+		SELECT
+			CO.C_O_NUM, <!-- 주문번호 -->
+			CO.C_B_NUM, <!-- 참고게시글번호 -->
+			CO.BIZ_DELIVERY, <!-- 배송비 -->
+			CO.C_O_DATE, <!-- 주문일자 -->
+			CO.C_O_BOOKDATE, <!-- 예약날짜 -->
+			CO.C_O_CNT, <!-- 주문수량 -->
+			CO.C_O_PRICE,<!--  총 상품가격 -->
+			CO.C_O_TEXT, <!-- 맞춤형 문구 -->
+			MB.BIZ_NAME, <!-- 사업장이름(가게이름) -->
+			CB.C_b_NAME, <!-- 제품 이름 -->
+			CB.C_b_PRICE, <!-- 제품 하나 가격 -->
+			CO.C_o_type,	<!-- 맞춤형인가?-->
+			
+			CO.C_O_SIZE,	<!-- 케이크 사이즈 -->
+			CO.C_O_SHEET,	<!-- 선택시트 -->
+			CO.C_O_TOPPING,	<!-- 선택 토핑-->
+			CO.C_O_CREAM	<!-- 선택 크림 -->
+			
+		FROM
+			CUSTOM_ORDER CO,
+			MEMBER_BIZ MB,
+			CUSTOM_BOARD CB
+		WHERE
+			CO.M_ID = #{m_id}
+		AND
+			CO.S_NUM = 1
+		AND
+			MB.M_ID = CB.M_ID
+		AND
+			CB.C_B_NUM = CO.C_B_NUM
+		
+	</select>
+	
+	<update id="updateCart" parameterType="Payment" flushCache="true"
+		statementType="PREPARED">
+		UPDATE 
+			PRODUCT_ORDER 
+		SET 
+			P_O_CNT = #{poCnt},
+			P_O_PRICE = #{poPrice}
+		WHERE 
+			P_O_NUM = #{poNum}
+	</update>
+	
+	
+	
+	<update id="updateCustomCart" parameterType="Payment" flushCache="true"
+		statementType="PREPARED">
+		UPDATE 
+			Custom_ORDER 
+		SET 
+			C_O_CNT = #{poCnt},
+			C_O_PRICE = #{poPrice}
+		WHERE 
+			C_O_NUM = #{poNum}
+	</update>
+	
+	<delete id="deleteCart" flushCache="true" statementType="PREPARED">
+		DELETE 
+		FROM
+			PRODUCT_ORDER
+		WHERE
+			P_O_NUM = #{poNum}
+	</delete>
+
+	<delete id="deleteCustomCart" flushCache="true" statementType="PREPARED">
+		DELETE 
+		FROM
+			CUSTOM_ORDER
+		WHERE
+			C_O_NUM = #{poNum}
+	</delete>
+	
+	
+	<insert id="insertPayment" parameterType="Payment" flushCache="true">
+		INSERT 
+			INTO 
+			payment 
+				(pay_NUM, 
+				M_ID, 
+				pay_date, 
+				pay_price, 
+				pay_method, 
+				imp_uid)
+		VALUES 
+			(SEQ_pay_NUM.NEXTVAL,
+			#{m_id},
+			SYSDATE, 
+			#{pay_price}, 
+			#{pay_method}, 
+			#{imp_uid})
+	</insert>
+	
+	<update id="updateProductOrder" parameterType="Payment" flushCache="true"
+		statementType="PREPARED">
+		UPDATE 
+			PRODUCT_ORDER 
+		SET 
+			S_NUM = 3,
+			P_O_MEMO = #{recMemo},
+			P_O_DATE = SYSDATE,
+			P_O_REC_NAME = #{recName},
+			P_O_REC_CP = #{recCP},
+			P_O_REC_POST = #{recPost},
+			P_O_REC_BASIC_ADDR = #{recBasicAddr},
+			P_O_REC_DETAIL_ADDR = #{recDetailAddr},
+			pay_Num = 
+					(select 
+						max(pay_NUM) 
+					from 
+						payment)
+		WHERE 
+			S_NUM=1
+	</update>
+	
+	
+	<update id="updateCustomOrder" parameterType="Payment" flushCache="true"
+		statementType="PREPARED">
+		UPDATE 
+			CUSTOM_ORDER 
+		SET 
+			S_NUM = 3,
+			C_O_MEMO = #{recMemo},
+			C_O_DATE = SYSDATE,
+			C_O_REC_NAME = #{recName},
+			C_O_REC_CP = #{recCP},
+			C_O_REC_POST = #{recPost},
+			C_O_REC_BASIC_ADDR = #{recBasicAddr},
+			C_O_REC_DETAIL_ADDR = #{recDetailAddr},
+			pay_Num = 
+					(select 
+						max(pay_NUM) 
+					from 
+						payment)
+		WHERE 
+			S_NUM=1
+	</update>
+	
+	
+	<select id="paymentSuccess" resultMap="resultPayment">
+		SELECT
+			*
+		FROM
+			payment
+		WHERE
+			M_ID = #{id}
+		AND
+			PAY_NUM = 
+				(select 
+					max(pay_NUM) 
+				from 
+					payment 
+				WHERE 
+				 	M_ID = #{id})
+	</select>
+	
+	
+	
+	
+	<select id="getBuyListCount" resultType="_int">
+		SELECT 
+			COUNT(*) 
+		FROM 
+			PRODUCT_ORDER
+		where
+			m_id = #{m_id}
+		and
+			S_NUM >=3
+		
+	</select>
+	
+	
+	<select id="countProductOrder" resultType="_int">
+		SELECT 
+			COUNT(*) 
+		FROM 
+			PRODUCT_ORDER
+		where
+			m_id = #{m_id}
+		and
+			S_NUM =1
+		
+	</select>
+	
+	<select id="countCustomOrder" resultType="_int">
+		SELECT 
+			COUNT(*) 
+		FROM 
+			CUSTOM_ORDER
+		where
+			m_id = #{m_id}
+		and
+			S_NUM =1
+		
+	</select>
+	
+	<select id="selectBuyList" resultMap="resultPayment">
+		SELECT
+			PO.P_O_NUM, <!-- 주문번호 -->
+			PO.P_B_NUM, <!-- 참고게시글번호 -->
+			PO.BIZ_DELIVERY, <!-- 배송비 -->
+			PO.P_O_DATE, <!-- 주문일자 -->
+			PO.P_O_BOOKDATE, <!-- 예약날짜 -->
+			PO.P_O_CNT, <!-- 주문수량 -->
+			PO.P_O_PRICE,<!--  총 상품가격 -->
+			PO.P_O_TEXT, <!-- 맞춤형 문구 -->
+			
+			MB.BIZ_NAME, <!-- 사업장이름(가게이름) -->
+			PB.P_NAME, <!-- 제품 이름 -->
+			PB.P_IMG,	<!-- 제품 이미지 -->
+			
+			PO.P_O_REC_NAME,  <!-- 받는 사람 이름 -->
+			PO.P_O_REC_CP,  <!-- 받는 사람 전화번호 -->
+			PO.P_O_REC_POST,  <!-- 받는 사람 우편번호 -->
+			PO.P_O_REC_BASIC_ADDR,  <!-- 기본 주소 -->
+			PO.P_O_REC_DETAIL_ADDR,  <!-- 상세 주소 -->
+			PO.S_NUM,             <!-- 주문 진행 상태 -->
+			PO.P_O_MEMO,    <!-- 배송 메모 -->		
+			s.s_status,	<!-- 주문 단계 설명 -->
+			MB.BIZ_DELIVERY_YN, <!-- 주문 가능 여부 -->
+			po.p_o_type
+		FROM
+			PRODUCT_ORDER PO,
+			MEMBER_BIZ MB,
+			PRODUCT_BOARD PB,
+			STATUS S
+		WHERE
+			PO.M_ID = #{m_id}
+		AND
+			PO.S_NUM >=3
+		AND
+			MB.M_ID = PB.M_ID
+		AND
+			PB.P_B_NUM = PO.P_B_NUM
+		and
+			po.s_num = s.s_num
+		ORDER BY 
+			po.p_o_date desc
+		
+	</select>
+	
+	<select id="selectCustomBuyList" resultMap="resultPayment">
+		SELECT
+			CO.C_O_NUM, <!-- 주문번호 -->
+			CO.C_B_NUM, <!-- 참고게시글번호 -->
+			CO.BIZ_DELIVERY, <!-- 배송비 -->
+			CO.C_O_DATE, <!-- 주문일자 -->
+			CO.C_O_BOOKDATE, <!-- 예약날짜 -->
+			CO.C_O_CNT, <!-- 주문수량 -->
+			CO.C_O_PRICE,<!--  총 상품가격 -->
+			CO.C_O_TEXT, <!-- 맞춤형 문구 -->
+			
+			MB.BIZ_NAME, <!-- 사업장이름(가게이름) -->
+			CB.c_b_NAME, <!-- 제품 이름 -->
+		
+			
+			CO.C_O_REC_NAME,  <!-- 받는 사람 이름 -->
+			CO.C_O_REC_CP,  <!-- 받는 사람 전화번호 -->
+			CO.C_O_REC_POST,  <!-- 받는 사람 우편번호 -->
+			CO.C_O_REC_BASIC_ADDR,  <!-- 기본 주소 -->
+			CO.C_O_REC_DETAIL_ADDR,  <!-- 상세 주소 -->
+			CO.S_NUM,             <!-- 주문 진행 상태 -->
+			CO.C_O_MEMO,    <!-- 배송 메모 -->		
+			s.s_status,	<!-- 주문 단계 설명 -->
+			MB.BIZ_DELIVERY_YN, <!-- 주문 가능 여부 -->
+			Co.C_o_type,
+			CO.C_O_SIZE,	<!-- 케이크 사이즈 -->
+			CO.C_O_SHEET,	<!-- 선택시트 -->
+			CO.C_O_TOPPING,	<!-- 선택 토핑-->
+			CO.C_O_CREAM	<!-- 선택 크림 -->
+			
+		FROM
+			Custom_ORDER CO,
+			MEMBER_BIZ MB,
+			CUSTOM_BOARD CB,
+			STATUS S
+		WHERE
+			cO.M_ID = #{m_id}
+		AND
+			cO.S_NUM >=3
+		AND
+			MB.M_ID = cB.M_ID
+		AND
+			cB.c_B_NUM = cO.c_B_NUM
+		and
+			co.s_num = s.s_num
+		ORDER BY 
+			co.c_o_date desc
+		
+	</select>
+	
+	
+	<update id="recPostUpdate" parameterType="Payment" flushCache="true"
+		statementType="PREPARED">
+		UPDATE 
+			PRODUCT_ORDER 
+		SET 
+			P_O_MEMO = #{recMemo},
+			P_O_REC_NAME = #{recName},
+			P_O_REC_CP = #{recCP},
+			P_O_REC_POST = #{recPost},
+			P_O_REC_BASIC_ADDR = #{recBasicAddr},
+			P_O_REC_DETAIL_ADDR = #{recDetailAddr}
+		WHERE 
+			P_O_NUM=#{poNum}
+	</update>
+	
+	<update id="poTextUpdate" parameterType="Payment" flushCache="true"
+		statementType="PREPARED">
+		UPDATE 
+			PRODUCT_ORDER 
+		SET 
+			P_O_TEXT = #{poText}
+		WHERE 
+			P_O_NUM=#{poNum}
+	</update>
+	
+	<update id="poDelete" flushCache="true"
+		statementType="PREPARED">
+		UPDATE 
+			PRODUCT_ORDER 
+		SET 
+			s_num = 0
+		WHERE 
+			P_O_NUM=#{poNum}
+	</update>
+
+
+	
+	<select id="directCheckoutList" resultMap="resultPayment">
+		
+		SELECT
+			PO.P_O_NUM, <!-- 주문번호 -->
+			PO.P_B_NUM, <!-- 참고게시글번호 -->
+			PO.BIZ_DELIVERY, <!-- 배송비 -->
+			PO.P_O_DATE, <!-- 주문일자 -->
+			PO.P_O_BOOKDATE, <!-- 예약날짜 -->
+			PO.P_O_CNT, <!-- 주문수량 -->
+			PO.P_O_PRICE,<!--  총 상품가격 -->
+			PO.P_O_TEXT, <!-- 맞춤형 문구 -->
+			MB.BIZ_NAME, <!-- 사업장이름(가게이름) -->
+			PB.P_NAME, <!-- 제품 이름 -->
+			PB.P_PRICE, <!-- 제품 하나 가격 -->
+			PB.P_IMG,	<!-- 제품 이미지 -->
+			po.p_o_type
+		FROM
+			PRODUCT_ORDER PO,
+			MEMBER_BIZ MB,
+			PRODUCT_BOARD PB
+		WHERE
+			PO.M_ID = #{m_id}
+		AND
+			PO.S_NUM = 1
+		AND
+			MB.M_ID = PB.M_ID
+		AND
+			PB.P_B_NUM = PO.P_B_NUM
+		AND
+			PO.P_O_NUM =
+				(
+				SELECT 
+					MAX(P_O_NUM)
+				FROM
+					PRODUCT_ORDER
+				)
+		
+	</select>
+	
+	
+	<update id="updateDirectProductOrder" parameterType="Payment" flushCache="true"
+		statementType="PREPARED">
+		UPDATE 
+			PRODUCT_ORDER 
+		SET 
+			S_NUM = 3,
+			P_O_MEMO = #{recMemo},
+			P_O_DATE = SYSDATE,
+			P_O_REC_NAME = #{recName},
+			P_O_REC_CP = #{recCP},
+			P_O_REC_POST = #{recPost},
+			P_O_REC_BASIC_ADDR = #{recBasicAddr},
+			P_O_REC_DETAIL_ADDR = #{recDetailAddr},
+			pay_Num = 
+					(select 
+						max(pay_NUM) 
+					from 
+						payment)
+		WHERE 
+			S_NUM=1
+		AND
+			P_O_NUM =
+				(
+				SELECT 
+					MAX(P_O_NUM)
+				FROM
+					PRODUCT_ORDER
+				)
+		and
+			M_ID = #{m_id}
+	</update>
+	
+	
+	<select id="directCustomCheckoutList" resultMap="resultPayment">	
+		SELECT
+			CO.C_O_NUM, <!-- 주문번호 -->
+			CO.C_B_NUM, <!-- 참고게시글번호 -->
+			CO.BIZ_DELIVERY, <!-- 배송비 -->
+			CO.C_O_DATE, <!-- 주문일자 -->
+			CO.C_O_BOOKDATE, <!-- 예약날짜 -->
+			CO.C_O_CNT, <!-- 주문수량 -->
+			CO.C_O_PRICE,<!--  총 상품가격 -->
+			CO.C_O_TEXT, <!-- 맞춤형 문구 -->
+			MB.BIZ_NAME, <!-- 사업장이름(가게이름) -->
+			CB.C_b_NAME, <!-- 제품 이름 -->
+			CB.C_b_PRICE, <!-- 제품 하나 가격 -->
+			CO.C_o_type,	<!-- 맞춤형인가?-->
+			
+			CO.C_O_SIZE,	<!-- 케이크 사이즈 -->
+			CO.C_O_SHEET,	<!-- 선택시트 -->
+			CO.C_O_TOPPING,	<!-- 선택 토핑-->
+			CO.C_O_CREAM	<!-- 선택 크림 -->
+			
+		FROM
+			CUSTOM_ORDER CO,
+			MEMBER_BIZ MB,
+			CUSTOM_BOARD CB
+		WHERE
+			CO.M_ID = #{m_id}
+		AND
+			CO.S_NUM = 1
+		AND
+			MB.M_ID = CB.M_ID
+		AND
+			CB.C_B_NUM = CO.C_B_NUM
+		AND
+			CO.C_O_NUM =
+				(
+				SELECT 
+					MAX(C_O_NUM)
+				FROM
+					CUSTOM_ORDER
+				)
+		
+	</select>
+	
+	<update id="updateDirectCustomOrder" parameterType="Payment" flushCache="true"
+		statementType="PREPARED">
+		UPDATE 
+			CUSTOM_ORDER 
+		SET 
+			S_NUM = 3,
+			C_O_MEMO = #{recMemo},
+			C_O_DATE = SYSDATE,
+			C_O_REC_NAME = #{recName},
+			C_O_REC_CP = #{recCP},
+			C_O_REC_POST = #{recPost},
+			C_O_REC_BASIC_ADDR = #{recBasicAddr},
+			C_O_REC_DETAIL_ADDR = #{recDetailAddr},
+			pay_Num = 
+					(select 
+						max(pay_NUM) 
+					from 
+						payment)
+		WHERE 
+			S_NUM=1
+		AND
+			C_O_NUM =
+				(
+				SELECT 
+					MAX(P_O_NUM)
+				FROM
+					CUSTOM_ORDER
+				)
+		and
+			M_ID = #{m_id}
+	</update>
+	
+
+</mapper>

@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC
+"-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="AdminMapper">
+
+   <resultMap id="resultAdminMember" type="Member">
+      <id property="id" column="M_ID" />
+      <result property="passwd" column="M_PW" />
+      <result property="name" column="M_NAME" />
+      <result property="code" column="M_NUM" />
+      <result property="email" column="M_EMAIL" />
+      <result property="phone" column="M_CP" />
+      <result property="status" column="M_STATUS" />
+      <result property="blackCnt" column="M_BLACKCNT" />
+      
+      <result property="bizName" column="BIZ_NAME " />
+      <result property="bizPN" column="BIZ_PN " />
+      <result property="bizNum" column="BIZ_NUM " />
+      <result property="bizDelivery" column="BIZ_DELIVERY " />
+      <result property="masterName" column="MASTER_NAME " />
+      <result property="bizDeliveryYN" column="BIZ_DELIVERY_YN " />
+      <result property="bizCustomYN" column="BIZ_CUSTOM_YN  " />
+   </resultMap>
+
+   <select id="getListCount" resultType="_int">
+      SELECT 
+         COUNT(*) 
+      FROM 
+         MEMBER
+   </select>
+
+   <select id="selectList" resultMap="resultAdminMember">
+      SELECT 
+         * 
+      FROM 
+         (SELECT 
+            * 
+         FROM
+            MEMBER 
+         ORDER BY 
+            M_NUM)
+   </select>
+   
+   
+   <select id="selectBizList" resultMap="resultAdminMember">
+      SELECT 
+         * 
+      FROM 
+         MEMBER_BIZ
+   </select>
+   
+   <select id="selectOne" resultMap="resultAdminMember">
+      SELECT
+         *
+      FROM
+         MEMBER
+      WHERE
+         M_ID = #{id}
+   </select>
+
+   <update id="updateMember" parameterType="Member" flushCache="true"
+      statementType="PREPARED">
+      UPDATE 
+         MEMBER 
+      SET 
+         M_NAME = #{name},
+         M_PW = #{passwd},
+         M_NUM=#{code}, 
+         M_EMAIL =#{email},
+         M_CP = #{phone},
+         M_STATUS =#{status},
+         M_BLACKCNT = #{blackCnt}
+      WHERE 
+         M_ID = #{id}
+   </update>
+   
+    
+   <update id="deleteTotalMember" flushCache="true" statementType="PREPARED">
+      UPDATE 
+         MEMBER
+      SET
+         M_STATUS = 4
+  </update>
+  
+  <update id="deleteMember" parameterType="string" flushCache="true" statementType="PREPARED">
+      UPDATE 
+         MEMBER
+      SET
+         M_STATUS = 4
+      WHERE
+         M_ID = #{id}
+   </update> 
+
+</mapper>

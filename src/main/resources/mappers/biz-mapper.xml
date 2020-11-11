@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC
+"-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="BizWithMember">
+	<resultMap id="resultBizWithMember" type="BizWithMember">
+		<result property="id" column="M_ID" /> 
+		<result property="bizName" column="BIZ_NAME" />
+		<result property="bizPn" column="BIZ_PN" />
+		<result property="bizNum" column="BIZ_NUM" />
+		<result property="bizDelivery" column="BIZ_DELIVERY" />
+		<result property="masterName" column="MASTER_NAME" />
+		<result property="bizDeliveryYn" column="BIZ_DELIVERY_YN" />
+		<result property="bizCustomYn" column="BIZ_CUSTOM_YN" />
+		<result property="mName" column="M_NAME"/>
+		<result property="mPost" column="M_POST"/>
+		<result property="mBasicAddr" column="M_BASIC_ADDR"/>
+		<result property="mDetailAddr" column="M_DETAIL_ADDR"/>
+		<result property="mCp" column="M_CP"/>
+		<result property="mPhoto" column="M_PHOTO"/>
+		<result property="mStatus" column="M_STATUS"/>
+	</resultMap>
+
+		<!-- 사업자 회원 MEMBER테이블 조인해 SELECT / 완제품 상세페이지에서 사용 -->
+	<select id="selectProductDetailBiz" parameterType="String" resultMap="resultBizWithMember">
+		SELECT *
+		FROM MEMBER M, MEMBER_BIZ B
+		WHERE M.M_ID = B.M_ID
+		AND B.M_ID=#{id}
+	</select>
+
+	
+</mapper>

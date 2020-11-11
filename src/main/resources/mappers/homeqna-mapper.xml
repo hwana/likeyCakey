@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC
+"-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace = "homeqna">
+	<resultMap type="Homeqna" id="resultHomeqna">
+		<id property="hqNum" column="H_Q_NUM"/>
+		<result property="id" column="M_ID"/>
+		<result property="hqContent" column="H_Q_CONTENT"/>
+		<result property="hqTitle" column="H_Q_TITLE"/>
+		<result property="hqDate" column="H_Q_DATE"/>
+		<result property="hqreRef" column="H_Q_RE_REF"/>
+		<result property="hqreLev" column="H_Q_RE_LEV"/>
+		<result property="hqreSeq" column="H_Q_RE_SEQ"/>
+	</resultMap>
+	
+	<!-- 게시글 작성 -->
+	<insert id = "insert" parameterType="Homeqna">
+		INSERT INTO HOME_QNA (H_Q_NUM, M_ID, H_Q_CONTENT, H_Q_TITLE, H_Q_DATE, H_Q_RE_REF, H_Q_RE_LEV, H_Q_RE_SEQ)
+		VALUES ((SELECT NVL(MAX(H_Q_NUM)+1, 0)FROM HOME_QNA), #{id}, #{hqContent}, #{hqTitle}, SYSDATE , 0,0,0)
+	</insert>
+	
+	<!-- 게시글 리스트 불러오기 -->
+	<select id="listAll" resultMap="resultHomeqna">
+		SELECT H_Q_NUM, H_Q_TITLE, H_Q_CONTENT, M_ID, H_Q_DATE FROM HOME_QNA
+		ORDER BY H_Q_NUM DESC, H_Q_DATE DESC
+	</select>
+	
+	<!-- 게시글 리스트 마이페이지에서 불러오기 -->
+	<select id="m_listAll" resultMap="resultHomeqna">
+		SELECT H_Q_NUM, H_Q_TITLE, H_Q_CONTENT, M_ID, H_Q_DATE FROM HOME_QNA
+		WHERE M_ID = #{id}
+		ORDER BY H_Q_NUM DESC, H_Q_DATE DESC
+	</select>
+	
+	<!-- 게시글 상세보기 -->
+	<select id="view" resultType="Homeqna">
+		SELECT * FROM HOME_QNA WHERE H_Q_NUM = #{hqNum}
+	</select>
+
+</mapper>

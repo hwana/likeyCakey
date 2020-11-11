@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+"-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="productQna">
+	<resultMap id="resultProductReview" type="productQna">
+		<!-- PK같은 것  -->
+		<id property="pqNum" column="P_Q_NUM"/>
+		<result property="pbNum" column="P_B_NUM"/>
+		<result property="id" column="M_ID"/>
+		<result property="pqContent" column="P_Q_CONTENT"/>
+		<result property="pqDate" column="P_Q_DATE"/>
+		<result property="pqNum" column="P_Q_C_NUM"/>
+		<result property="pqcContent" column="P_Q_C_CONTENT"/>
+		<result property="pqcDate" column="P_Q_C_DATE"/>
+	</resultMap>
+	
+</mapper>

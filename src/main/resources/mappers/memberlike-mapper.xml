@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC
+"-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="MemberLike">
+	
+	<resultMap id="resultMemberLike" type="MemberLike">
+		<id property="likeNo" column="LIKE_NO"/>
+		<result property="pbNum" column="P_B_NUM"/>
+		<result property="cbNum" column="C_B_NUM"/>
+		<result property="id" column="M_ID"/>
+	</resultMap>
+	
+	<!-- 좋아요 누르면 insert -->
+	<insert id="insertHeartMember" parameterType="hashmap" >
+		INSERT INTO MEMBER_LIKE (P_B_NUM, M_ID, LIKE_NO)
+		VALUES (#{pbNum}, #{id}, SEQ_LIKE_NO.NEXTVAL)
+	</insert>
+	
+	<!-- 좋아요 취소시  delete -->
+	<delete id="deleteHeartMember" parameterType="hashmap">
+		DELETE MEMBER_LIKE WHERE P_B_NUM=#{pbNum} AND M_ID=#{id}
+	</delete>
+	
+	<!-- 회원 좋아요 리스트 -->
+	<select id="selectMemberLikeList" parameterType="String" resultMap="resultMemberLike">
+		SELECT * FROM MEMBER_LIKE WHERE M_ID = #{id}
+	</select>
+	
+</mapper>
+

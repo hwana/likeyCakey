@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE mapper PUBLIC
+"-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ProductOrder">
+	<resultMap id="resultProductOrder" type="ProductOrder">
+		<id property="poNum" column="P_O_NUM" />
+		<result property="pbNum" column="P_B_NUM" />
+		<result property="sNum" column="S_NUM"/>
+		<result property="id" column="M_ID"/>
+		<result property="poBizDelivery" column="BIZ_DELIVERY" />
+		<result property="poMemo" column="P_O_MEMO"/>
+		<result property="poDate" column="P_O_DATE" />
+		<result property="poBookDate" column="P_O_BOOKDATE" />
+		<result property="poCnt" column="P_O_CNT" />
+		<result property="poPrice" column="P_O_PRICE" />
+		<result property="poText" column="P_O_TEXT" />
+		<result property="poRecName" column="P_O_REC_NAME" />
+		<result property="poRecCp" column="P_O_REC_CP" />
+		<result property="poRecPost" column="P_O_REC_POST"/>
+		<result property="poRecBasicAddr" column="P_O_REC_BASIC_ADDR" />
+		<result property="poRecDetailAddr" column="P_O_REC_DETAIL_ADDR" />
+	</resultMap>
+
+	<insert id="insertProductAddCart" parameterType="ProductOrder">
+		INSERT INTO PRODUCT_ORDER
+		(P_O_NUM, P_B_NUM, S_NUM, M_ID, BIZ_DELIVERY, P_O_DATE, P_O_BOOKDATE, P_O_CNT, P_O_PRICE, P_O_TEXT,
+		 P_O_REC_NAME, P_O_REC_CP, P_O_REC_POST, P_O_REC_BASIC_ADDR, P_O_REC_DETAIL_ADDR, P_O_TYPE)
+		VALUES 
+		(SEQ_P_O_NUM.NEXTVAL, #{pbNum}, 1, #{id}, #{poBizDelivery}, SYSDATE, #{poBookDate}, #{poCnt}, #{poPrice}, #{poText}, 
+		 #{poRecName}, #{poRecCp}, #{poRecPost}, #{poRecBasicAddr}, #{poRecDetailAddr}, 1)
+	</insert>
+
+</mapper>

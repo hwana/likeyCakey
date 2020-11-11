@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC
+"-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="bizMember">
+
+	<resultMap id="resultMember" type="bizMember">
+		<result property = "id" column="M_ID" /> 
+		<result property="bizName" column="BIZ_NAME" />
+		<result property="bizPn" column="BIZ_PN" />
+		<result property="bizNum" column="BIZ_NUM" />
+		<result property="bizDelivery" column="BIZ_DELIVERY" />
+		<result property="masterName" column="MASTER_NAME" />
+		<result property="bizDeliveryYn" column="BIZ_DELIVERY_YN" />
+		<result property="bizCustomYn" column="BIZ_CUSTOM_YN" />
+	</resultMap>
+
+	<insert id="insertMember" parameterType="bizMember" flushCache="true">
+		INSERT INTO MEMBER_BIZ VALUES
+		(#{id},3, #{bizName},#{bizPn},#{bizNum},#{bizDelivery},#{masterName},#{bizDeliveryYn},#{bizCustomYn})
+	</insert>
+
+	<select id="selectBizMember" parameterType="bizMember" resultMap="resultMember">
+		SELECT count(*) FROM MEMBER_BIZ WHERE M_ID=#{id}
+	</select>
+	
+	<select id="selectBiz" parameterType="bizMember" resultType="String">
+		SELECT MASTER_NAME FROM MEMBER_BIZ WHERE M_ID=#{id}
+	</select>
+	
+	<select id="selectNameList" parameterType="String" resultType="String">
+		SELECT BIZ_NAME FROM MEMBER_BIZ WHERE M_ID=#{id}
+	</select>
+	
+	<!-- 사업자 회원정보 수정 -->
+	<update id="updateMypage" parameterType="bizMember" flushCache="true" statementType="PREPARED">
+		UPDATE MEMBER_BIZ
+		SET MASTER_NAME = #{masterName}
+		WHERE M_ID = #{id}
+	</update>
+</mapper>

@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+"-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ProductBoard">
+	<resultMap id="resultProductBoard" type="ProductBoard">
+		<!-- PK같은 것  -->
+		<id property="pbNum" column="P_B_NUM"/>
+		<result property="id" column="M_ID"/>
+		<result property="pName" column="P_NAME"/>
+		<result property="pPrice" column="P_PRICE"/>
+		<result property="pImg" column="P_IMG"/>
+		<result property="pSize" column="P_SIZE"/>
+		<result property="pCM" column="P_CM"/> 
+		<result property="pCount" column="P_COUNT"/>
+		<result property="pCountLimit" column="P_COUNT_LIMIT"/>
+		<result property="pbMiniTitle" column="P_B_MINI_TITLE"/>
+		<result property="pbMiniContent" column="P_B_MINI_CONTENT"/>
+		<result property="pbContent" column="P_B_CONTENT"/>
+		<result property="pbLike" column="P_B_LIKE"/>
+		<result property="pbReadCnt" column="P_B_READCNT"/>
+		<result property="pbYN" column="P_B_YN"/>
+		<result property="pbWarn" column="P_B_WARN"/>
+		<result property="pbTag" column="P_B_TAG"/>
+		<result property="pbSellCnt" column="P_B_SELLCNT"/>
+		<result property = "pbStatus" column = "P_B_STATUS"/>
+	</resultMap>
+	
+	<!-- 메인 페이지 Top3 -->
+	<select id="selectTop3" resultMap="resultProductBoard">
+		SELECT * FROM PRODUCT_BOARD ORDER BY P_B_SELLCNT DESC 
+	</select>
+	
+	<!-- 메인 페이지 오늘의 상품 -->
+<!--	<select id="selectTodaysCake" resultMap="resultProductBoard">-->
+<!--		SELECT * FROM -->
+<!--		(SELECT * FROM PRODUCT_BOARD ORDER BY P_B_READCNT ASC)-->
+<!--		WHERE ROWNUM = 1-->
+<!--	</select>-->
+	
+	<!-- 메인페이지 NEW ARRIVAL -->
+	<select id="selectNewArrivalList" resultMap="resultProductBoard">
+		SELECT * FROM PRODUCT_BOARD ORDER BY P_B_NUM DESC
+	</select>
+	
+	<!-- 메인페이지 BESTLIKEY -->
+	<select id="selectLikeyList" resultMap="resultProductBoard">
+		SELECT * FROM PRODUCT_BOARD ORDER BY P_B_LIKE DESC
+	</select>
+	
+	
+	<!-- 상품 게시글 좋아요 추가하기 -->
+	<update id="updateLikeyBoard" parameterType="String" >
+		UPDATE PRODUCT_BOARD SET P_B_LIKE = P_B_LIKE+1 WHERE P_B_NUM = #{pbNum}
+	</update>
+	
+	
+	<!-- 상품 게시글 좋아요 취소했을 때 -1하기 -->
+	<update id="updateSubtractLikeyBoard" parameterType="String">
+		UPDATE PRODUCT_BOARD SET P_B_LIKE = P_B_LIKE-1 WHERE P_B_NUM = #{pbNum}
+	</update>
+	
+	<!-- 상품 상세페이지  select -->
+	<select id="selectProductDetail" parameterType="String" resultMap="resultProductBoard">
+		SELECT * FROM PRODUCT_BOARD WHERE P_B_NUM = #{pbNum}
+	</select>
+
+   <insert id="insertProductBoard" parameterType="ProductBoard">
+ 		INSERT INTO PRODUCT_BOARD VALUES 
+		( NVL((SELECT MAX(P_B_NUM) + 1 FROM PRODUCT_BOARD),0),
+			#{id}, #{pName}, #{pPrice}, #{pImg},
+			1, 1, 1, 10, #{pbMiniTitle}, #{pbMiniContent},
+			#{pbContent}, 3, 4, #{pbYN}, #{pbWarn}, #{pbTag}, 5, 1)
+  	</insert>
+  	
+
+  	<select id="getCakeCount" parameterType="String" resultType="_int">
+		SELECT COUNT(*) FROM PRODUCT_BOARD
+			WHERE P_NAME LIKE '%' || #{inputsearch} || '%'
+			   OR P_B_MINI_TITLE LIKE '%' || #{inputsearch} || '%'
+			   OR P_B_MINI_CONTENT LIKE '%' || #{inputsearch} || '%'
+			   OR P_B_CONTENT LIKE '%' || #{inputsearch} || '%'
+			   OR P_B_WARN LIKE '%' || #{inputsearch} || '%'
+			   OR P_B_TAG LIKE '%' || #{inputsearch} || '%'
+	</select>
+	
+	<select id="getCakeCountwf" parameterType="FilterList" resultType="_int">
+		SELECT COUNT(*) FROM PRODUCT_BOARD
+			WHERE (P_NAME LIKE '%' || #{inputsearch} || '%' AND P_NAME LIKE '%' || #{simplefilter} || '%')
+			   OR (P_B_MINI_TITLE LIKE '%' || #{inputsearch} || '%' AND P_B_MINI_TITLE LIKE '%' || #{simplefilter} || '%')
+			   OR (P_B_MINI_CONTENT LIKE '%' || #{inputsearch} || '%' AND P_B_MINI_CONTENT LIKE '%' || #{simplefilter} || '%')
+			   OR (P_B_CONTENT LIKE '%' || #{inputsearch} || '%' AND P_B_CONTENT LIKE '%' || #{simplefilter} || '%')
+			   OR (P_B_WARN LIKE '%' || #{inputsearch} || '%' AND P_B_WARN LIKE '%' || #{simplefilter} || '%')
+			   OR (P_B_TAG LIKE '%' || #{inputsearch} || '%' AND P_B_TAG LIKE '%' || #{simplefilter} || '%')
+	</select>
+	
+	<select id="getVendorCakeCount" parameterType="String" resultType="_int">
+		SELECT COUNT(*) FROM PRODUCT_BOARD WHERE M_ID = #{inputvendor}	
+	</select>
+	
+	<select id="getVendorReviewCount" parameterType="String" resultType="_int">
+		SELECT COUNT(*) FROM (
+			SELECT * FROM PRODUCT_BOARD a, PRODUCT_REVIEW b WHERE a.P_B_NUM = b.P_B_NUM AND a.M_ID = #{inputvendor}
+		)
+	</select>
+	
+	<select id="selectCakeList" parameterType="String" resultMap="resultProductBoard">
+		SELECT * FROM (
+			SELECT * FROM PRODUCT_BOARD 
+				WHERE P_NAME LIKE '%' || #{inputsearch} || '%'
+			  	OR P_B_MINI_TITLE LIKE '%' || #{inputsearch} || '%'
+			   	OR P_B_MINI_CONTENT LIKE '%' || #{inputsearch} || '%'
+			   	OR P_B_CONTENT LIKE '%' || #{inputsearch} || '%'
+			   	OR P_B_WARN LIKE '%' || #{inputsearch} || '%'
+			   	OR P_B_TAG LIKE '%' || #{inputsearch} || '%'
+		)	
+	</select>
+	
+	<select id="selectCakeListwf" parameterType="FilterList" resultMap="resultProductBoard">
+		SELECT * FROM (
+			SELECT * FROM PRODUCT_BOARD 
+				WHERE (P_NAME LIKE '%' || #{inputsearch} || '%' AND P_NAME LIKE '%' || #{simplefilter} || '%')
+			   OR (P_B_MINI_TITLE LIKE '%' || #{inputsearch} || '%' AND P_B_MINI_TITLE LIKE '%' || #{simplefilter} || '%')
+			   OR (P_B_MINI_CONTENT LIKE '%' || #{inputsearch} || '%' AND P_B_MINI_CONTENT LIKE '%' || #{simplefilter} || '%')
+			   OR (P_B_CONTENT LIKE '%' || #{inputsearch} || '%' AND P_B_CONTENT LIKE '%' || #{simplefilter} || '%')
+			   OR (P_B_WARN LIKE '%' || #{inputsearch} || '%' AND P_B_WARN LIKE '%' || #{simplefilter} || '%')
+			   OR (P_B_TAG LIKE '%' || #{inputsearch} || '%' AND P_B_TAG LIKE '%' || #{simplefilter} || '%')
+		)	
+	</select>
+	
+	<select id="selectVendorCakeList" parameterType="String" resultMap="resultProductBoard">
+		SELECT * FROM PRODUCT_BOARD WHERE M_ID = #{inputvendor}
+	</select>
+	
+	<select id="selectReviewCakeList" parameterType="_int" resultType="String">
+		SELECT P_NAME FROM PRODUCT_BOARD WHERE P_B_NUM = #{pbNum}
+	</select>
+	
+	<select id="selectCakeListwo1" parameterType="String" resultMap="resultProductBoard">
+			SELECT * FROM (
+			SELECT * FROM PRODUCT_BOARD 
+				WHERE P_NAME LIKE '%' || #{inputsearch} || '%'
+			  	OR P_B_MINI_TITLE LIKE '%' || #{inputsearch} || '%'
+			   	OR P_B_MINI_CONTENT LIKE '%' || #{inputsearch} || '%'
+			   	OR P_B_CONTENT LIKE '%' || #{inputsearch} || '%'
+			   	OR P_B_WARN LIKE '%' || #{inputsearch} || '%'
+			   	OR P_B_TAG LIKE '%' || #{inputsearch} || '%'
+				ORDER BY P_B_NUM DESC
+			)	
+	</select>
+	
+	<select id="selectCakeListwo2" parameterType="String" resultMap="resultProductBoard">
+			SELECT * FROM (
+			SELECT * FROM PRODUCT_BOARD 
+				WHERE P_NAME LIKE '%' || #{inputsearch} || '%'
+			  	OR P_B_MINI_TITLE LIKE '%' || #{inputsearch} || '%'
+			   	OR P_B_MINI_CONTENT LIKE '%' || #{inputsearch} || '%'
+			   	OR P_B_CONTENT LIKE '%' || #{inputsearch} || '%'
+			   	OR P_B_WARN LIKE '%' || #{inputsearch} || '%'
+			   	OR P_B_TAG LIKE '%' || #{inputsearch} || '%'
+				ORDER BY P_B_LIKE DESC
+			)	
+	</select>
+	
+	<select id="selectCakeListwo3" parameterType="String" resultMap="resultProductBoard">
+			SELECT * FROM (
+			SELECT * FROM PRODUCT_BOARD 
+				WHERE P_NAME LIKE '%' || #{inputsearch} || '%'
+			  	OR P_B_MINI_TITLE LIKE '%' || #{inputsearch} || '%'
+			   	OR P_B_MINI_CONTENT LIKE '%' || #{inputsearch} || '%'
+			   	OR P_B_CONTENT LIKE '%' || #{inputsearch} || '%'
+			   	OR P_B_WARN LIKE '%' || #{inputsearch} || '%'
+			   	OR P_B_TAG LIKE '%' || #{inputsearch} || '%'
+				ORDER BY P_PRICE ASC
+			)	
+	</select>
+	
+	<select id="selectCakeListwo4" parameterType="String" resultMap="resultProductBoard">
+			SELECT * FROM (
+			SELECT * FROM PRODUCT_BOARD 
+				WHERE P_NAME LIKE '%' || #{inputsearch} || '%'
+			  	OR P_B_MINI_TITLE LIKE '%' || #{inputsearch} || '%'
+			   	OR P_B_MINI_CONTENT LIKE '%' || #{inputsearch} || '%'
+			   	OR P_B_CONTENT LIKE '%' || #{inputsearch} || '%'
+			   	OR P_B_WARN LIKE '%' || #{inputsearch} || '%'
+			   	OR P_B_TAG LIKE '%' || #{inputsearch} || '%'
+				ORDER BY P_PRICE DESC
+			)	
+	</select>
+	
+	<select id="selectCakeListwo5" parameterType="String" resultMap="resultProductBoard">
+			SELECT * FROM (
+			SELECT * FROM PRODUCT_BOARD 
+				WHERE P_NAME LIKE '%' || #{inputsearch} || '%'
+			  	OR P_B_MINI_TITLE LIKE '%' || #{inputsearch} || '%'
+			   	OR P_B_MINI_CONTENT LIKE '%' || #{inputsearch} || '%'
+			   	OR P_B_CONTENT LIKE '%' || #{inputsearch} || '%'
+			   	OR P_B_WARN LIKE '%' || #{inputsearch} || '%'
+			   	OR P_B_TAG LIKE '%' || #{inputsearch} || '%'
+				ORDER BY P_B_READCNT DESC
+			)	
+	</select>
+
+</mapper>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+"-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="customBoard">
+	<resultMap id="resultCustomBoard" type="CustomBoard">
+		<!-- PK같은 것  -->
+		<id property="cbNum" column="C_B_NUM"/>
+		<result property="id" column="M_ID"/>
+		<result property="cbMiniTitle" column="C_B_MINI_TITLE"/>
+		<result property="cbMiniContent" column="C_B_MINI_CONTENT"/>
+		<result property="cbContent" column="C_B_CONTENT"/>
+		<result property="cbLike" column="C_B_LIKE"/>
+		<result property="cbReadCnt" column="C_B_READCNT"/>
+		<result property="cbTag" column="C_B_TAG"/>
+		<result property="cbWarn" column="C_B_WARN"/>
+		<result property="cbName" column="C_B_NAME"/>
+		<result property="cbPrice" column="C_B_PRICE"/>
+		<result property="cbStatus" column = "C_B_STATUS"/>
+	</resultMap>
+	
+	<resultMap id="resultCustomCream" type="CustomCream">
+
+		<result property="crNum" column="CR_NUM"/>
+		<result property="id" column="M_ID"/>
+		<result property="crName" column="CR_NAME"/>
+		<result property="crPrice" column="CR_PRICE"/>
+	</resultMap>
+	
+	<resultMap id="resultCustomSheet" type="CustomSheet">
+	
+		<result property="shNum" column="SH_NUM"/>
+		<result property="id" column="M_ID"/>
+		<result property="shName" column="SH_NAME"/>
+		<result property="shPrice" column="SH_PRICE"/>
+	</resultMap>
+	
+	<resultMap id="resultCustomTopping" type="CustomTopping">
+		
+		<result property="tpNum" column="TP_NUM"/>
+		<result property="id" column="M_ID"/>
+		<result property="tpName" column="TP_NAME"/>
+		<result property="tpPrice" column="TP_PRICE"/>
+	</resultMap>
+	
+	<resultMap id="resultCustomSize" type="CustomSize">
+		
+		<result property="sizeNum" column="SIZE_NUM"/>
+		<result property="id" column="M_ID"/>
+		<result property="sizeName" column="SIZE_NAME"/>
+		<result property="sizePrice" column="SIZE_PRICE"/>
+	</resultMap>
+	
+	<insert id = "insertCustomBoard">
+		INSERT INTO CUSTOM_BOARD VALUES 
+		( NVL((SELECT MAX(C_B_NUM) + 1 FROM CUSTOM_BOARD),0),
+			#{id}, #{cbMiniTitle}, #{cbMiniContent}, #{cbContent}, 
+			0, 0, #{cbTag}, #{cbWarn}, #{cbName}, #{cbPrice}, 1)
+	</insert>
+	
+	<insert id = "insertCustomCream">
+		INSERT INTO CUSTOM_CREAM VALUES 
+		(#{crNum}, #{id}, #{crName}, #{crPrice})
+	</insert>
+	
+	<insert id = "insertCustomSheet">
+		INSERT INTO CUSTOM_SHEET VALUES 
+		(#{shNum}, #{id}, #{shName}, #{shPrice})
+	</insert>
+	
+	<insert id = "insertCustomTopping">
+		INSERT INTO CUSTOM_TOPPING VALUES 
+		(#{tpNum}, #{id}, #{tpName}, #{tpPrice})
+	</insert>
+	
+	<insert id = "insertCustomSize">
+		INSERT INTO CUSTOM_SIZE VALUES 
+		(#{sizeNum}, #{id}, #{sizeName}, #{sizePrice})
+	</insert>
+	
+	<select id="selectCustomCakeList" resultMap="resultCustomBoard">
+		SELECT * FROM CUSTOM_BOARD
+	</select>
+	
+	<select id="selectCreamList" parameterType="String" resultType="String">
+		SELECT CR_NAME FROM CUSTOM_CREAM WHERE M_ID=#{id}
+	</select>
+	
+	<select id="selectSheetList" parameterType="String" resultType="String">
+		SELECT SH_NAME FROM CUSTOM_SHEET WHERE M_ID=#{id}
+	</select>
+	
+	<select id="selectToppingList" parameterType="String" resultType="String">
+		SELECT TP_NAME FROM CUSTOM_TOPPING WHERE M_ID=#{id}
+	</select>
+	
+  </mapper>
