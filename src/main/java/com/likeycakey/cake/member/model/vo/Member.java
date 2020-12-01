@@ -5,15 +5,8 @@ import com.likeycakey.cake.biz.model.vo.BizMember;
 import org.springframework.stereotype.Component;
 
 @Component
-public class Member implements java.io.Serializable{
-	// 자바 내부에서 사용하는 자료를 자바 외의 프로그램에서도 인식할 수 있게 바이트로 변환하여
-	// 데이터를 전송하기 위해 직렬화 처리를 한다.
-	// 이 때 프로그램을 인식시키기 위한 고유의 식별 번호를 부여한다.
-	// 만약 이 식별번호가 일치하면 자바에서 해당 객체를 중복으로 인식하여 에러를 발생시킨다.
+public class Member{
 
-	private static final long serialVersionUID = 1000300L;
-	
-	
 	private String id;
 	private String passwd;
 	private String name;
@@ -95,9 +88,6 @@ public class Member implements java.io.Serializable{
 		this.bizCustomYN = bizCustomYN;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
 
 	private String bizPN;
 	private String bizNum;

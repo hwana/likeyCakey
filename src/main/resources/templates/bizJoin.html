@@ -1,0 +1,156 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/default">
+<head>
+
+</head>
+<body layout:fragment="content">
+<article class="container">
+    <div class="col-md-12">
+        <div class="page-header">
+            <h1 th:text="회원가입">
+                <small>[Likey Cakey]회원가입</small>
+            </h1>
+        </div>
+        <form class="form-horizontal" action="bizInsert.ca" method="post" enctype="multipart/form-data">
+            <!--일반회원/사업자 공통부분-->
+            <div class="form-group">
+                <label class="col-sm-3 control-label" for="inputID">아이디</label>
+                <div class="col-sm-4">
+                    <input class="form-control" id="inputID" type="text" name="id">
+                </div>
+                <button class="btn search" type="button" id="dupid">중복검사</button>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label" for="inputPassword">비밀번호</label>
+                <div class="col-sm-6">
+                    <input class="form-control" id="inputPassword" type="password" name="passwd">
+                    <p class="help-block">영여, 숫자포함 8자 이상</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label" for="inputPasswordCheck">비밀번호 확인</label>
+                <div class="col-sm-6">
+                    <input class="form-control" id="inputPasswordCheck" type="password">
+                    <p class="help-block">비밀번호를 한번 더 입력해주세요.</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label" for="inputName">이름</label>
+                <div class="col-sm-6">
+                    <input class="form-control" id="inputName" type="text" name="name">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label" for="inputemail">이메일</label>
+                <div class="col-sm-6">
+                    <input class="form-control" id="inputemail" type="text" name="email">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label" for="inputPost">우편번호</label>
+                <div class="col-sm-4">
+                    <input class="form-control" id="inputPost" type="text" name=post>
+                </div>
+                <button class="btn search" type="button" onclick="sample6_execDaumPostcode()">검색
+                </button>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label" for="inputBasicAddr">기본주소</label>
+                <div class="col-sm-6">
+                    <input class="form-control" id="inputBasicAddr" type="text" name="addressBasic">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label" for="inputDetailAddr">상세주소</label>
+                <div class="col-sm-6">
+                    <input class="form-control" id="inputDetailAddr" type="text" name="addressDetail">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label" for="inputNumber">휴대폰번호</label>
+                <div class="col-sm-6">
+                    <input type="tel" class="form-control" id="inputNumber" placeholder="-포함하여 입력하세요." name="phone"/>
+                </div>
+            </div>
+
+
+            <hr>
+
+            <div class="form-group">
+                <label class="col-sm-3 control-label" for="inputStoreName">상호명</label>
+                <div class="col-sm-6">
+                    <input class="form-control" id="inputStoreName" type="text" name="bizName">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label" for="inputMasterName">대표자명</label>
+                <div class="col-sm-6">
+                    <input class="form-control" id="inputMasterName" type="text" name="masterName">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label" for="inputStoreCall">업체전화번호</label>
+                <div class="col-sm-6">
+                    <input class="form-control" id="inputStoreCall" type="text" name="bizPn">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label" for="inputBizNum">사업자 등록번호</label>
+                <div class="col-sm-6">
+                    <input class="form-control" id="inputBizNum" type="text" name="bizNum">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label" for="inputDelivery">배송비</label>
+                <div class="col-sm-6">
+                    <input class="form-control" id="inputDelivery" type="text" name="bizDelivery">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label" for="inputemail">배송여부</label>
+                <div class="col-sm-3 checkbox">
+                    <input class="checkbox-inline radio" type="radio" name="bizDeliveryYn" id="delyes" value="Y"> &nbsp;배송
+                </div>
+                <div class="col-sm-3 checkbox">
+                    <input class="checkbox-inline radio" type="radio" name="bizDeliveryYn" id="delno" value="N"> &nbsp;픽업
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label" for="inputemail">커스터마이징</label>
+                <div class="col-sm-3 checkbox">
+                    <input class="checkbox-inline radio" type="radio" name="bizCustomYn" id="cusyes" value="Y"> &nbsp;가능
+                </div>
+                <div class="col-sm-3 checkbox">
+                    <input class="checkbox-inline radio" type="radio" name="bizCustomYn" id="cusno" value="N"> &nbsp;불가능
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label" for="inputPhoto">업체사진</label>
+                <div class="col-sm-4">
+                    <input class="form-control" id="inputPhoto" type="text" name="photo" readOnly>
+                </div>
+                <label for="file" class="btn search"> 사진등록</label>
+                <input id="file" type="file" name="file"/>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">약관 동의</label>
+                <div class="col-sm-6" data-toggle="buttons">
+                    <label class="btn btn-warning active">
+                        <input id="agree" type="checkbox" autocomplete="off">
+                        <span class="fa fa-check"></span>
+                    </label> <a href="#">이용약관</a>에 동의 합니다.
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-12 text-center" id="joinbutton">
+                    <button class="btn btn-primary btn-lg" type="submit" id="join">회원가입</button>
+                    <button class="btn btn-danger btn-lg" type="submit" id="cancle">가입취소</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</article>
+</body>
+</html>

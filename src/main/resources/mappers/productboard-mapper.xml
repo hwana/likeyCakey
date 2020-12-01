@@ -32,12 +32,12 @@
 		SELECT * FROM PRODUCT_BOARD ORDER BY P_B_SELLCNT DESC 
 	</select>
 	
-	<!-- 메인 페이지 오늘의 상품 -->
-<!--	<select id="selectTodaysCake" resultMap="resultProductBoard">-->
-<!--		SELECT * FROM -->
-<!--		(SELECT * FROM PRODUCT_BOARD ORDER BY P_B_READCNT ASC)-->
-<!--		WHERE ROWNUM = 1-->
-<!--	</select>-->
+<!--	 메인 페이지 오늘의 상품-->
+	<select id="selectTodaysCake" resultMap="resultProductBoard">
+		SELECT * FROM
+		(SELECT * FROM PRODUCT_BOARD ORDER BY P_B_READCNT ASC)
+		WHERE ROWNUM = 1
+	</select>
 	
 	<!-- 메인페이지 NEW ARRIVAL -->
 	<select id="selectNewArrivalList" resultMap="resultProductBoard">

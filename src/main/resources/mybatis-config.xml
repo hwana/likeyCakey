@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE configuration PUBLIC
+"-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<settings>
+		<setting name="jdbcTypeForNull" value="NULL"/>
+	</settings>
+
+	<typeAliases>		
+		<typeAlias type="com.likeycakey.cake.member.model.vo.Member" alias="Member"/>
+		<typeAlias type="com.likeycakey.cake.member.model.vo.MemberLike" alias="MemberLike"/>
+		<typeAlias type="com.likeycakey.cake.payment.model.vo.Payment" alias="Payment"/>
+		<typeAlias type="com.likeycakey.cake.biz.model.vo.BizMember" alias="bizMember"/>
+		<typeAlias type="com.likeycakey.cake.detailView.model.vo.ProductBoard" alias="ProductBoard"/>
+		<typeAlias type="com.likeycakey.cake.detailView.model.vo.CustomBoard" alias="CustomBoard"/>
+		<typeAlias type="com.likeycakey.cake.detailView.model.vo.CustomCream" alias="CustomCream"/>
+		<typeAlias type="com.likeycakey.cake.detailView.model.vo.CustomSheet" alias="CustomSheet"/>
+		<typeAlias type="com.likeycakey.cake.detailView.model.vo.CustomTopping" alias="CustomTopping"/>
+		<typeAlias type="com.likeycakey.cake.detailView.model.vo.CustomSize" alias="CustomSize"/>
+		<typeAlias type="com.likeycakey.cake.detailView.model.vo.ProductReview" alias="ProductReview"/>
+		<typeAlias type="com.likeycakey.cake.member.model.vo.BizWithMember" alias="BizWithMember"/>
+		<typeAlias type="com.likeycakey.cake.list.model.vo.FilterList" alias="FilterList"/>
+		<typeAlias type="com.likeycakey.cake.qna.model.vo.Homeqna" alias="Homeqna"/>
+		<typeAlias type="com.likeycakey.cake.detailView.model.vo.ProductReview" alias="productReview"/>
+		<typeAlias type="com.likeycakey.cake.detailView.model.vo.ProductOrder" alias="ProductOrder"/>
+		<!-- <typeAlias type="org.kh.firstSpring.notice.model.vo.Notice" alias="Notice"/>
+		<typeAlias type="org.kh.firstSpring.board.model.vo.Board" alias="Board"/> -->
+	</typeAliases> 	
+	
+	<!-- 마이바티스 DataSource 설정은 root-context.xml을 참조한다. -->
+	
+	<mappers>
+		<mapper resource="mappers/member-mapper.xml"/>
+		<mapper resource="mappers/bizmember-mapper.xml"/>
+		<mapper resource="mappers/productboard-mapper.xml"/>
+		<mapper resource="mappers/customboard-mapper.xml"/>
+		<mapper resource="mappers/admin-mapper.xml"/>
+		<mapper resource="mappers/biz-mapper.xml"/>
+		<mapper resource="mappers/productreview-mapper.xml"/>
+		<mapper resource="mappers/memberlike-mapper.xml"/>
+		<mapper resource="mappers/homeqna-mapper.xml"/>
+		<mapper resource="mappers/payment-mapper.xml"/>
+		<mapper resource="mappers/productorder-mapper.xml"/>
+	</mappers> 
+
+</configuration>
