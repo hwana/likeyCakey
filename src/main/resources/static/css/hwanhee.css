@@ -119,4 +119,63 @@ color: #fff;
 	height:auto;
 }
 
+label {
+	margin-top: 10px;
+}
+
+hr {
+	margin: 20px;
+}
+
+.radio {
+	height: auto;
+	width: auto;
+	font-size: 15px;
+	margin: auto 0;
+}
+
+.checkbox {
+	margin-top: 18px;
+}
+
+.container {
+	margin-top: 50px;
+	margin-bottom: 50px;
+}
+
+#joinbutton {
+	margin-top: 30px;
+}
+
+.verifycode {
+	background: #9bcaba;
+	margin-left: 10px;
+}
+
+.search {
+	background: #9bcaba;
+	margin-top: 10px;
+	color: white;
+}
+
+#agree {
+	background: #9bcaba;
+	border-color: #9bcaba;
+}
+
+#join {
+	background: #f6c6c9;
+}
+
+#cancle {
+	background: #9bcaba;
+}
+input[type="file"] {
+    display: none;
+}
+
+#bizform{
+display : none
+}
+
 
