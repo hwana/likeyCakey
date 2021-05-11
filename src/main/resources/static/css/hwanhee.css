@@ -1,0 +1,181 @@
+@charset "UTF-8";
+
+#container{
+	margin-top :15%;
+	margin-bottom : 15%;
+}
+#panel-login {
+	border-color: #ccc;
+	box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.2);
+}
+#panel-login>#panel-heading {
+	color: #00415d;
+	background-color: #fff;
+	border-color: #fff;
+	text-align:center;
+}
+.panel-login>#panel-heading a{
+	text-decoration: none;
+	color: #666;
+	font-weight: bold;
+	font-size: 15px;
+
+}
+#panel-login>#panel-heading a.active{
+	color: #9bcaba;
+	font-size: 18px;
+}
+#panel-login>#panel-heading hr{
+	margin-top: 10px;
+	margin-bottom: 0px;
+	clear: both;
+	border: 0;
+	height: 1px;
+	background-image: -webkit-linear-gradient(left,rgba(0, 0, 0, 0),rgba(0, 0, 0, 0.15),rgba(0, 0, 0, 0));
+}
+.panel-login input[type="text"],.panel-login input[type="password"],.panel-login input[type="tel"] {
+	
+	border : none;
+	border-bottom: 1px solid #ddd;
+	font-size: 11px;
+	transition: all 0.1s linear;
+	outline:none;
+	box-shadow: none;
+	border-color: #ccc;
+	background : white;
+}
+
+#panel-login label{
+	margin-top : 18px;
+	font-size : 13px;
+	font-weight : bold;
+	color : black;
+}
+
+#biz_login {
+	background-color: #f6c6c9;
+	outline: none;
+	color: #fff;
+	font-size: 14px;
+	height: 40px;
+	font-weight: normal;
+	text-transform: uppercase;
+	border-color: #f6c6c9;
+}
+#biz_login:hover,
+#biz_login:focus {
+	color: #fff;
+	background-color: #f6c6c9;
+	border-color: #f6c6c9;
+}
+
+#nor_login {
+	background-color: #f6c6c9;
+	outline: none;
+	color: #fff;
+	font-size: 14px;
+	height: 40px;
+	font-weight: normal;
+	text-transform: uppercase;
+	border-color: #f6c6c9;
+}
+#nor_login:hover,
+#nor_login:focus {
+	color: #fff;
+	background-color: #f6c6c9;
+	border-color: #f6c6c9;
+}
+.forgot-password {
+	color: #888;
+	text-decoration : none;
+	font-size : 12px;
+}
+.forgot-password:hover,
+.forgot-password:focus {
+	color: #666;
+	text-decoration:none;
+	font-size : 12px;
+}
+
+.btn-register {
+	background-color: #f6c6c9;
+	outline: none;
+	color: #fff;
+	font-size: 14px;
+	height: 50px;
+	font-weight: normal;
+	text-transform: uppercase;
+	border-color: #f6c6c9;
+}
+.btn-register:hover,
+.btn-register:focus {
+color: #fff;
+	background-color: #f6c6c9;
+	border-color: #f6c6c9;
+}
+
+.remember {
+	width:auto;
+	height:auto;
+}
+
+label {
+	margin-top: 10px;
+}
+
+hr {
+	margin: 20px;
+}
+
+.radio {
+	height: auto;
+	width: auto;
+	font-size: 15px;
+	margin: auto 0;
+}
+
+.checkbox {
+	margin-top: 18px;
+}
+
+.container {
+	margin-top: 50px;
+	margin-bottom: 50px;
+}
+
+#joinbutton {
+	margin-top: 30px;
+}
+
+.verifycode {
+	background: #9bcaba;
+	margin-left: 10px;
+}
+
+.search {
+	background: #9bcaba;
+	margin-top: 10px;
+	color: white;
+}
+
+#agree {
+	background: #9bcaba;
+	border-color: #9bcaba;
+}
+
+#join {
+	background: #f6c6c9;
+}
+
+#cancle {
+	background: #9bcaba;
+}
+input[type="file"] {
+    display: none;
+}
+
+#bizform{
+display : none
+}
+
+
